@@ -1,0 +1,23 @@
+.open teachers.db
+.schema
+
+1. SELECT number,
+(SELECT name FROM courses WHERE id = course_id),
+students_amount FROM streams WHERE students_amount >= 40;
+
+2. SELECT
+(SELECT number FROM streams WHERE id = stream_id),
+(SELECT name FROM courses WHERE id =
+(SELECT course_id FROM streams WHERE id = stream_id)),
+(SELECT surname || ' ' || name FROM teachers WHERE id = teacher_id),
+performance FROM grades ORDER BY performance LIMIT 2;
+
+3. SELECT teacher_id, AVG(performance) FROM grades WHERE teacher_id =
+(SELECT id FROM teachers WHERE name = 'Николай' AND surname = 'Савельев');
+
+4. SELECT stream_id,
+(SELECT surname FROM teachers WHERE id = teacher_id),
+(SELECT name FROM teachers WHERE id = teacher_id)
+FROM grades WHERE teacher_id =
+(SELECT id FROM teachers WHERE name = 'Наталья' AND surname = 'Петрова')
+OR performance < 4.8;
