@@ -1,0 +1,8 @@
+.open teachers.db
+.schema
+
+1.  SELECT number, name, started_at FROM streams JOIN courses ON course_id = courses.id;
+
+2. SELECT courses.name, SUM(students_amount) FROM courses JOIN streams ON courses.id = streams.course_id GROUP BY courses.id;
+
+3. SELECT id, surname, name, AVG(performance) FROM teachers LEFT JOIN grades ON id = teacher_id GROUP BY id;
