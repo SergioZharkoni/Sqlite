@@ -1,0 +1,37 @@
+.open teachers.db
+.schema
+
+1. CREATE VIEW courses_info AS
+SELECT courses.name AS course_name,
+MAX(number) AS number_stream,
+MAX(started_at) AS start_stream,
+AVG(performance) AS average_performance
+FROM courses
+LEFT JOIN streams
+ON courses.id = streams.course_id
+LEFT JOIN grades
+ON grades.stream_id = streams.id
+GROUP BY courses.id;
+
+SELECT * FROM courses_info;
+
+2. BEGIN TRANSACTION;
+DELETE FROM teachers WHERE id = 3;
+DELETE FROM grades WHERE teacher_id = 3;
+COMMIT;
+
+SELECT id FROM teachers;
+SELECT teacher_id FROM grades;
+
+3. CREATE TRIGGER check_value_grade
+BEFORE INSERT ON grades
+BEGIN
+SELECT CASE
+WHEN
+NEW.performance NOT BETWEEN 0 AND 5
+THEN
+RAISE(ABORT, 'Wrong format for grade!')
+END;
+END;
+
+INSERT INTO grades (teacher_id, stream_id, performance) VALUES (68, 385, 7);
