@@ -1,0 +1,17 @@
+.open teachers.db
+.schema
+
+1. SELECT DISTINCT courses.name AS course_name,
+SUM(streams.students_amount)
+OVER (PARTITION BY courses.id) AS total_amount_students
+FROM courses
+JOIN streams
+ON courses.id = streams.course_id;
+
+2. SELECT teachers.id, teachers.surname, teachers.name, AVG(grades.performance)
+OVER (PARTITION BY teachers.id) AS average_grade
+FROM teachers
+LEFT JOIN grades ON teachers.id = grades.teacher_id;
+
+3. a) CREATE INDEX teacher_id_idx ON academic_performance (teacher_id);
+   b) CREATE INDEX stream_id_idx ON academic_performance (stream_id);
